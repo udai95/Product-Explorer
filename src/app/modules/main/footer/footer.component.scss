@@ -1,0 +1,40 @@
+.footer {
+  background-color: #1c2938;
+  color: #fff;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: -8px -8px -8px -8px;
+}
+
+.footer-content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+
+  img {
+    max-width: 40px;
+    margin-right: 10px;
+  }
+
+  span {
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+.footer-rights {
+  span {
+    font-size: 14px;
+  }
+}

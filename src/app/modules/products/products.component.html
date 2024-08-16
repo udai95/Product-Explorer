@@ -1,0 +1,102 @@
+<div class="products-page">
+  <section class="products-container">
+    <div class="products-header">
+      <h2>
+        {{ selectedCategory ? (selectedCategory | titlecase) : "All Products" }}
+      </h2>
+    </div>
+    <div class="breadcrumb">
+      <span>Home</span> / <span>Products</span> /
+      <span>{{
+        selectedCategory ? (selectedCategory | titlecase) : "All Products"
+      }}</span>
+    </div>
+
+    <div class="products-body">
+      <aside class="categories">
+        <h4>Products</h4>
+        <ul>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="category"
+                (click)="onCategoryChange('')"
+                [checked]="selectedCategory === ''"
+              />
+              All ({{ totalProducts }})
+            </label>
+          </li>
+          @for (category of categories; track category.slug) {
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="category"
+                (click)="onCategoryChange(category.slug)"
+                [checked]="selectedCategory === category.slug"
+              />
+              {{ category.name | titlecase }}
+            </label>
+          </li>
+          }
+        </ul>
+      </aside>
+
+      <div class="products-grid">
+        @for (product of filteredProducts(); track product.id) {
+        <div class="product-card">
+          <div class="discount-badge">
+            -{{ product.discountPercentage | number : "1.2-2" }}%
+          </div>
+          <img [src]="product.thumbnail" alt="{{ product.title }}" />
+          <h3>{{ product.title }}</h3>
+          <p>{{ product.description }}</p>
+          <p>
+            <span class="old-price">${{ product.price }} USD </span>
+            <span class="new-price"
+              >{{
+                calculateDiscountedPrice(
+                  product?.price,
+                  product.discountPercentage
+                )
+              }}
+              USD</span
+            >
+          </p>
+          <p>
+            Brand: <span class="font-bold">{{ product.brand }}</span>
+          </p>
+          <p>
+            Category: <span class="font-bold">{{ product.category }}</span>
+          </p>
+          <p>
+            In stock: <span class="font-bold">{{ product.stock }}</span>
+          </p>
+          <p>
+            <span class="rating">
+              <p-rating
+                [(ngModel)]="product.rating"
+                [readonly]="true"
+                [stars]="1"
+                cancel="false"
+              ></p-rating>
+              <span>{{ product.rating }} ({{ product.reviews.length }})</span>
+            </span>
+          </p>
+          <button (click)="addToCart(product)">Add to Cart</button>
+        </div>
+        }
+      </div>
+    </div>
+
+    <p-paginator
+      [rows]="itemsPerPage"
+      [totalRecords]="totalProducts"
+      [first]="(currentPage - 1) * itemsPerPage"
+      (onPageChange)="onPageChange($event)"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      styleClass="custom-paginator"
+    ></p-paginator>
+  </section>
+</div>
